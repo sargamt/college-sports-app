@@ -29,6 +29,7 @@ export default function Index() {
           Hello, Expo!
         </Text>
       </View>
+      <Text>College Sports App</Text>
     </View>
   );
 }
