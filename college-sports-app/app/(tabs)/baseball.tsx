@@ -21,19 +21,9 @@ const renderItem = ({ item }: {item: Item}) => {
 
 export default function Tab() {
   return (
-    <SafeAreaView style={styles.container}>
-      {/*<View style={styles.header}>
-      <Text style ={styles.headerTitle}>Current news</Text>
-      </View>
-      <Text>Tab [Settings]</Text>*/}
-
-      <ActivityIndicator size = "large" color = "000"/>
-      <FlatList
-          data = {data}
-          keyExtractor={(item) => item.id}
-          renderItem= { renderItem }
-        />
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Text>Tab [Baseball]</Text>
+    </View>
   );
 }
 
