@@ -1,29 +1,37 @@
 import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, ActivityIndicator, ListRenderItem} from 'react-native';
 
-  const data = [
-    {id : '1', name: 'Item 1'},
-    {id: '2', name: 'Item 2'}
-  ]
+const data = [
+  {id : '1', name: 'Item 1'},
+  {id: '2', name: 'Item 2'}
+]
 
 
 type Item = {
-  id: string,
-  name: string,
+id: string,
+name: string,
 }
 
+
 const renderItem = ({ item }: {item: Item}) => {
-  return(
-    <View>
-    <Text style={styles.Name}>{item.name}</Text>
-  </View>
-  )
+return(
+  <View>
+  <Text style={styles.Name}>{item.name}</Text>
+</View>
+)
 }
+
 
 export default function Tab() {
   return (
-    <View style={styles.container}>
-      <Text>Tab [Baseball]</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+
+      <ActivityIndicator size = "large" color = "000"/>
+      <FlatList
+          data = {data}
+          keyExtractor={(item) => item.id}
+          renderItem= { renderItem }
+        />
+    </SafeAreaView>
   );
 }
 
