@@ -1,8 +1,10 @@
 # college-sports-app
 
-To run:
+To start app:
+```bash
 cd college-sports-app
 npx expo start
+```
 
 Things to note:
 to edit any of the tabs' layouts, go to /app/(tabs)/{sport_name}.tsx
