@@ -1,3 +1,4 @@
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 
@@ -7,15 +8,22 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+          title: 'Football',
+          tabBarIcon: ({ color }) => <FontAwesome6 name="football" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="basketball"
         options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+          title: 'Basketball',
+          tabBarIcon: ({ color }) => <FontAwesome6 name="basketball" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="baseball"
+        options={{
+          title: 'Baseball',
+          tabBarIcon: ({ color }) => <FontAwesome6 name="baseball" size={24} color={color} />,
         }}
       />
     </Tabs>
