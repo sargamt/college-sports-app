@@ -20,3 +20,6 @@ cd flask-server
 pip install flask
 pip install requests
 ```
+
+
+http://localhost:5000/football/data
