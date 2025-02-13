@@ -2,6 +2,7 @@
   "name": "college-sports-app",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "proxy": "http://localhost:5000",
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
@@ -9,19 +10,15 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint",
-    "dev": "bun --watch app/index.ts"
+    "lint": "expo lint"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
-    "@henrygd/semaphore": "^0.0.2",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
-    "elysia": "^1.2.12",
-    "expiry-map": "^2.0.0",
     "expo": "~52.0.28",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.5",
@@ -34,7 +31,6 @@
     "expo-symbols": "~0.2.1",
     "expo-system-ui": "~4.0.7",
     "expo-web-browser": "~14.0.2",
-    "linkedom": "^0.18.7",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.6",
