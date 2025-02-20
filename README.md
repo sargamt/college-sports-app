@@ -19,6 +19,7 @@ For backend as of now:
 cd flask-server
 pip install flask
 pip install requests
+python3 server.py
 ```
 
 
