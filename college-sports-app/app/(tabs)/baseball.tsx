@@ -2,15 +2,15 @@ import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, Activ
 
 const data = [
   {id : '1', name: 'Item 1'},
-  {id: '2', name: 'Item 2'}
+  {id: '2', name: 'Item 2'},
+  {id: '3', name: 'Item 3'},
+  {id: '4', name: 'Item 4'}
 ]
-
 
 type Item = {
 id: string,
 name: string,
 }
-
 
 const renderItem = ({ item }: {item: Item}) => {
 return(
@@ -20,12 +20,11 @@ return(
 )
 }
 
-
 export default function Tab() {
   return (
     <SafeAreaView style={styles.container}>
 
-      <ActivityIndicator size = "large" color = "000"/>
+      <ActivityIndicator size = "large" color = "00008B"/>
       <FlatList
           data = {data}
           keyExtractor={(item) => item.id}
@@ -39,25 +38,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-
-  },
-  header: {
-    padding: 50,
-    alignItems: 'center',
-  },
-  headerTitle: {
-    color: "#000000",
-    fontSize: 30, 
-    fontWeight: 'bold',
   },
   Name: {
-    backgroundColor: '#000000',
+    backgroundColor: '#00008B',
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#ffffff', // Dark blue color
-    marginBottom: 4,
-    borderRadius: 20,
+    color: '#ffffff', 
     padding: 40,
+    marginBottom: 50,
+    marginHorizontal: 8,
+    borderColor: '#1E88E5',
+    borderRadius: 70,
+    height: 200
+    
   },
 });
 
