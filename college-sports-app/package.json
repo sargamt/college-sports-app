@@ -2,6 +2,7 @@
   "name": "college-sports-app",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "proxy": "http://localhost:5000",
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
@@ -40,7 +41,8 @@
     "react-native-tab-view": "^4.0.5",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "react-native-pager-view": "6.5.1"
+    "react-native-pager-view": "6.5.1",
+    "flask": "0.2.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
