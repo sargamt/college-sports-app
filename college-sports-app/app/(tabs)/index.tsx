@@ -47,8 +47,8 @@ export default function Tab() {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text style={styles.rank}>Rank: {item.RANK}</Text>
-            <Text style={styles.school}>{item.SCHOOL}</Text>
+            <Text style={styles.rank}>{item.SCHOOL}</Text>
+            <Text style={styles.school}>Rank: {item.RANK}</Text>
             <Text>Record: {item.RECORD}</Text>
             <Text>Points: {item.POINTS}</Text>
             <Text>Previous Rank: {item.PREV}</Text>

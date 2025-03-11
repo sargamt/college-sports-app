@@ -15,6 +15,18 @@ def get_football_data():
     
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/basketball/data', methods=['GET'])
+def get_basketball_data():
+    try:
+        response = requests.get('https://ncaa-api.henrygd.me/standings/basketball-men/d1/sec')
+        response.raise_for_status()  # Raise HTTPError for bad responses
+        data = response.json()
+        return jsonify(data)
+    
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)}), 500
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
