@@ -5,6 +5,7 @@ export default function Tab() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedSchool, setSelectedSchool] = useState("alabama");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +23,11 @@ export default function Tab() {
 
     fetchData();
   }, []);
+
+  const filteredData = data.filter((item) =>
+    item.SCHOOL?.trim().toLowerCase() === selectedSchool.trim().toLowerCase()
+  );
+
 
   if (loading) {
     return (
@@ -43,7 +49,7 @@ export default function Tab() {
     <View style={styles.container}>
       <Text style={styles.title}>College Football Rankings</Text>
       <FlatList
-        data={data}
+        data={filteredData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.item}>
