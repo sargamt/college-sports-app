@@ -26,7 +26,30 @@ def get_basketball_data():
     
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
+
+# @app.route('/baseball/roster', methods=['GET'])
+# def get_baseball_roster():
+#     try:
+#         response = requests.get('https://ncaa-api.henrygd.me/standings/basketball-men/d1/sec')
+#         response.raise_for_status()  # Raise HTTPError for bad responses
+#         data = response.json()
+#         return jsonify(data)
     
+#     except requests.exceptions.RequestException as e:
+#         return jsonify({'error': str(e)}), 500
+
+# @app.route('/schools-list', methods=['GET'])
+# def get_schools_list():
+#     try:
+#         response = requests.get('https://ncaa-api.henrygd.me/schools-index')
+#         response.raise_for_status()  # Raise HTTPError for bad responses
+#         data = response.json()
+#         return jsonify(data)
+    
+#     except requests.exceptions.RequestException as e:
+#         return jsonify({'error': str(e)}), 500
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

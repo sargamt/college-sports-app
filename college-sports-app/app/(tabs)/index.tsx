@@ -5,7 +5,7 @@ export default function Tab() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedSchool, setSelectedSchool] = useState("alabama");
+  const [selectedSchool, setSelectedSchool] = useState("alabama"); // update school according to selected school from dropdown
 
   useEffect(() => {
     const fetchData = async () => {
