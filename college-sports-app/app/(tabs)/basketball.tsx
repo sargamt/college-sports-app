@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 export default function BasketballTab() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // shows all schools by default
+  const [selectedSchool, setSelectedSchool] = useState('All');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +43,14 @@ export default function BasketballTab() {
     );
   }
 
+  // list of all schools for dropdown
+  const schoolOptions = ['All', ...new Set(data.map((team) => team.School))];
+
+  // filter data based on selected school
+  const filteredData = selectedSchool === 'All' 
+    ? data 
+    : data.filter(team => team.School === selectedSchool);
+
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       {/* Title */}
@@ -46,8 +58,19 @@ export default function BasketballTab() {
         <Text style={styles.title}>Southeastern Conference Standings</Text>
       </View>
 
+      {/* dropdown */}
+      <Picker
+        selectedValue={selectedSchool}
+        onValueChange={(itemValue) => setSelectedSchool(itemValue)}
+        style={styles.picker}
+      >
+        {schoolOptions.map((school, index) => (
+          <Picker.Item key={index} label={school} value={school} />
+        ))}
+      </Picker>
+
       {/* Render standings */}
-      {data.map((team, index) => (
+      {filteredData.map((team, index) => (
         <View key={index} style={styles.teamContainer}>
           <Text style={styles.teamName}>{team.School}</Text>
           <Text>Conference Wins: {team["Conference W"]}</Text>
@@ -73,13 +96,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
     alignItems: 'center',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  picker: {
+    height: 50,
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    marginBottom: 20,
   },
   teamContainer: {
     backgroundColor: '#f8f9fa',
