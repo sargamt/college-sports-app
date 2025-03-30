@@ -2,20 +2,68 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-export default function BasketballTab() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+interface TeamStanding {
+  School: string;
+  "Conference W": string;
+  "Conference L": string;
+  "Conference PCT": string;
+  "Overall W": string;
+  "Overall L": string;
+  "Overall PCT": string;
+  "Overall STREAK": string;
+}
 
-  // shows all schools by default
-  const [selectedSchool, setSelectedSchool] = useState('All');
+interface ConferenceData {
+  conference: string;
+  standings: TeamStanding[];
+}
+
+export default function BasketballTab() {
+  const [data, setData] = useState<TeamStanding[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedConference, setSelectedConference] = useState('acc');
+
+  const conferences = [
+    'america-east',
+    'the-American',
+    'atlantic-10',
+    'acc',
+    'asun',
+    'big-12',
+    'big-east',
+    'big-sky',
+    'big-south',
+    'big-ten',
+    'big-west',
+    'caa',
+    'cusa',
+    'horizon',
+    'maac',
+    'mac',
+    'meac',
+    'mvc',
+    'mountain-west',
+    'nec',
+    'ovc',
+    'patriot',
+    'sec',
+    'socon',
+    'southland',
+    'swac',
+    'sun-belt',
+    'ivy-league',
+    'summit-league',
+    'wcc',
+    'wac'
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/basketball/data'); // Replace with your machine's IP address
+        const response = await fetch(`http://127.0.0.1:5000/basketball/data?conference=${selectedConference}`);
         const result = await response.json();
-        setData(result.data[0]?.standings || []); // Access standings array
+        setData(result.data[0]?.standings || []);
       } catch (err) {
         setError('Failed to load data');
         console.error(err);
@@ -25,7 +73,7 @@ export default function BasketballTab() {
     };
 
     fetchData();
-  }, []);
+  }, [selectedConference]);
 
   if (loading) {
     return (
@@ -43,38 +91,31 @@ export default function BasketballTab() {
     );
   }
 
-  // list of all schools for dropdown
-  const schoolOptions = ['All', ...new Set(data.map((team) => team.School))];
-
-  // filter data based on selected school
-  const filteredData = selectedSchool === 'All' 
-    ? data 
-    : data.filter(team => team.School === selectedSchool);
-
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       {/* Title */}
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Southeastern Conference Standings</Text>
+        <Text style={styles.title}>{selectedConference.toUpperCase()} Conference Standings</Text>
       </View>
 
-      {/* dropdown */}
+      {/* Conference dropdown */}
       <Picker
-        selectedValue={selectedSchool}
-        onValueChange={(itemValue) => setSelectedSchool(itemValue)}
+        selectedValue={selectedConference}
+        onValueChange={(itemValue) => setSelectedConference(itemValue)}
         style={styles.picker}
       >
-        {schoolOptions.map((school, index) => (
-          <Picker.Item key={index} label={school} value={school} />
+        {conferences.map((conf) => (
+          <Picker.Item key={conf} label={conf.toUpperCase()} value={conf} />
         ))}
       </Picker>
 
       {/* Render standings */}
-      {filteredData.map((team, index) => (
+      {data.map((team, index) => (
         <View key={index} style={styles.teamContainer}>
           <Text style={styles.teamName}>{team.School}</Text>
           <Text>Conference Wins: {team["Conference W"]}</Text>
           <Text>Conference Losses: {team["Conference L"]}</Text>
+          <Text>Conference PCT: {team["Conference PCT"]}</Text>
           <Text>Overall Wins: {team["Overall W"]}</Text>
           <Text>Overall Losses: {team["Overall L"]}</Text>
           <Text>Overall PCT: {team["Overall PCT"]}</Text>

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
 
@@ -19,7 +19,8 @@ def get_football_data():
 @app.route('/basketball/data', methods=['GET'])
 def get_basketball_data():
     try:
-        response = requests.get('https://ncaa-api.henrygd.me/standings/basketball-men/d1/sec')
+        conference = request.args.get('conference', 'acc')  # Default to ACC if no conference specified
+        response = requests.get(f'https://ncaa-api.henrygd.me/standings/basketball-men/d1/{conference}')
         response.raise_for_status()  # Raise HTTPError for bad responses
         data = response.json()
         return jsonify(data)
