@@ -93,65 +93,99 @@ export default function BasketballTab() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {/* Title */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{selectedConference.toUpperCase()} Conference Standings</Text>
+    <View style={styles.container}>
+      <View style={styles.contentCard}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {/* Title */}
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>NCAA Basketball Standings</Text>
+          </View>
+
+          {/* Conference Selector */}
+          <View style={styles.selectorSection}>
+            <Text style={styles.selectorTitle}>Select Conference</Text>
+            <Picker
+              selectedValue={selectedConference}
+              onValueChange={(itemValue) => setSelectedConference(itemValue)}
+              style={styles.picker}
+            >
+              {conferences.map((conf) => (
+                <Picker.Item key={conf} label={conf.toUpperCase()} value={conf} />
+              ))}
+            </Picker>
+            <Text style={styles.selectedConference}>{selectedConference.toUpperCase()} Conference</Text>
+          </View>
+
+          {/* Render standings */}
+          {data.map((team, index) => (
+            <View key={index} style={styles.teamContainer}>
+              <Text style={styles.teamName}>{team.School}</Text>
+              <Text>Conference Wins: {team["Conference W"]}</Text>
+              <Text>Conference Losses: {team["Conference L"]}</Text>
+              <Text>Conference PCT: {team["Conference PCT"]}</Text>
+              <Text>Overall Wins: {team["Overall W"]}</Text>
+              <Text>Overall Losses: {team["Overall L"]}</Text>
+              <Text>Overall PCT: {team["Overall PCT"]}</Text>
+              <Text>Streak: {team["Overall STREAK"]}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
-
-      {/* Conference dropdown */}
-      <Picker
-        selectedValue={selectedConference}
-        onValueChange={(itemValue) => setSelectedConference(itemValue)}
-        style={styles.picker}
-      >
-        {conferences.map((conf) => (
-          <Picker.Item key={conf} label={conf.toUpperCase()} value={conf} />
-        ))}
-      </Picker>
-
-      {/* Render standings */}
-      {data.map((team, index) => (
-        <View key={index} style={styles.teamContainer}>
-          <Text style={styles.teamName}>{team.School}</Text>
-          <Text>Conference Wins: {team["Conference W"]}</Text>
-          <Text>Conference Losses: {team["Conference L"]}</Text>
-          <Text>Conference PCT: {team["Conference PCT"]}</Text>
-          <Text>Overall Wins: {team["Overall W"]}</Text>
-          <Text>Overall Losses: {team["Overall L"]}</Text>
-          <Text>Overall PCT: {team["Overall PCT"]}</Text>
-          <Text>Streak: {team["Overall STREAK"]}</Text>
-        </View>
-      ))}
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    padding: 10,
-    backgroundColor: '#f0f8ff',
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#f0f8ff',
+    padding: 10,
+  },
+  contentCard: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    overflow: 'hidden',
+  },
+  scrollContainer: {
+    padding: 15,
   },
   titleContainer: {
-    marginBottom: 10,
+    marginBottom: 15,
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: '#2c3e50',
+  },
+  selectorSection: {
+    marginBottom: 20,
+  },
+  selectorTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 10,
+    color: '#2c3e50',
   },
   picker: {
     height: 50,
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
     borderRadius: 8,
-    marginBottom: 20,
+    marginBottom: 10,
+  },
+  selectedConference: {
+    fontSize: 16,
+    color: '#3498db',
+    textAlign: 'center',
+    marginTop: 5,
   },
   teamContainer: {
     backgroundColor: '#f8f9fa',
@@ -168,6 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: '#2c3e50',
   },
   error: {
     color: 'red',
