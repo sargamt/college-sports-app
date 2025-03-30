@@ -19,7 +19,7 @@ def get_football_data():
 @app.route('/basketball/data', methods=['GET'])
 def get_basketball_data():
     try:
-        conference = request.args.get('conference', 'acc')  # Default to ACC if no conference specified
+        conference = request.args.get('conference', 'all-conf')  # Default to all conferences if none specified
         response = requests.get(f'https://ncaa-api.henrygd.me/standings/basketball-men/d1/{conference}')
         response.raise_for_status()  # Raise HTTPError for bad responses
         data = response.json()

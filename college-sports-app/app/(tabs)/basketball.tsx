@@ -22,9 +22,10 @@ export default function BasketballTab() {
   const [data, setData] = useState<TeamStanding[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedConference, setSelectedConference] = useState('acc');
+  const [selectedConference, setSelectedConference] = useState('all-conf');
 
   const conferences = [
+    'all-conf',
     'america-east',
     'the-American',
     'atlantic-10',
