@@ -66,6 +66,41 @@ export default function BasketballTab() {
     'wac'
   ];
 
+  const conferenceNames: { [key: string]: string } = {
+    'all-conf': 'All Conferences',
+    'america-east': 'America East Conference',
+    'the-American': 'American Athletic Conference',
+    'atlantic-10': 'Atlantic 10 Conference',
+    'acc': 'Atlantic Coast Conference',
+    'asun': 'Atlantic Sun Conference',
+    'big-12': 'Big 12 Conference',
+    'big-east': 'Big East Conference',
+    'big-sky': 'Big Sky Conference',
+    'big-south': 'Big South Conference',
+    'big-ten': 'Big Ten Conference',
+    'big-west': 'Big West Conference',
+    'caa': 'Coastal Athletic Association',
+    'cusa': 'Conference USA',
+    'horizon': 'Horizon League',
+    'maac': 'Metro Atlantic Athletic Conference',
+    'mac': 'Mid-American Conference',
+    'meac': 'Mid-Eastern Athletic Conference',
+    'mvc': 'Missouri Valley Conference',
+    'mountain-west': 'Mountain West Conference',
+    'nec': 'Northeast Conference',
+    'ovc': 'Ohio Valley Conference',
+    'patriot': 'Patriot League',
+    'sec': 'Southeastern Conference',
+    'socon': 'Southern Conference',
+    'southland': 'Southland Conference',
+    'swac': 'Southwestern Athletic Conference',
+    'sun-belt': 'Sun Belt Conference',
+    'ivy-league': 'The Ivy League',
+    'summit-league': 'The Summit League',
+    'wcc': 'West Coast Conference',
+    'wac': 'Western Athletic Conference'
+  };
+
   const sortFields: { label: string; value: SortField }[] = [
     { label: 'School Name', value: 'School' },
     { label: 'Conference Wins', value: 'Conference W' },
@@ -162,7 +197,7 @@ export default function BasketballTab() {
           {/* Conference Display */}
           <View style={styles.selectedConferenceContainer}>
             <Text style={styles.selectedConference}>
-              {selectedConference.toUpperCase()}: {selectedGender === 'men' ? "Men's" : "Women's"} Basketball
+              {conferenceNames[selectedConference]}: {selectedGender === 'men' ? "Men's" : "Women's"} Basketball
             </Text>
           </View>
 
@@ -188,7 +223,7 @@ export default function BasketballTab() {
               style={styles.picker}
             >
               {conferences.map((conf) => (
-                <Picker.Item key={conf} label={conf.toUpperCase()} value={conf} />
+                <Picker.Item key={conf} label={conferenceNames[conf]} value={conf} />
               ))}
             </Picker>
           </View>

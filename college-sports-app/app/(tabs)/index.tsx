@@ -43,6 +43,21 @@ export default function FootballTab() {
     'sun-belt'
   ];
 
+  const conferenceNames: { [key: string]: string } = {
+    'all-conf': 'All Conferences',
+    'the-american': 'American Athletic Conference',
+    'acc': 'Atlantic Coast Conference',
+    'big-12': 'Big 12 Conference',
+    'big-ten': 'Big Ten Conference',
+    'cusa': 'Conference USA',
+    'fbs-independent': 'FBS Independent',
+    'mac': 'Mid-American Conference',
+    'mountain-west': 'Mountain West Conference',
+    'pac-12': 'PAC-12 Conference',
+    'sec': 'Southeastern Conference',
+    'sun-belt': 'Sun Belt Conference'
+  };
+
   const sortFields: { label: string; value: SortField }[] = [
     { label: 'School Name', value: 'School' },
     { label: 'Conference Wins', value: 'Conference W' },
@@ -143,7 +158,7 @@ export default function FootballTab() {
           {/* Conference Display */}
           <View style={styles.selectedConferenceContainer}>
             <Text style={styles.selectedConference}>
-              {selectedConference.toUpperCase()}
+              {conferenceNames[selectedConference]}
             </Text>
           </View>
 
@@ -156,7 +171,7 @@ export default function FootballTab() {
               style={styles.picker}
             >
               {conferences.map((conf) => (
-                <Picker.Item key={conf} label={conf.toUpperCase()} value={conf} />
+                <Picker.Item key={conf} label={conferenceNames[conf]} value={conf} />
               ))}
             </Picker>
           </View>
