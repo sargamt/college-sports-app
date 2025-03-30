@@ -18,11 +18,16 @@ interface ConferenceData {
   standings: TeamStanding[];
 }
 
+type SortField = keyof TeamStanding;
+type SortOrder = 'asc' | 'desc';
+
 export default function BasketballTab() {
   const [data, setData] = useState<TeamStanding[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedConference, setSelectedConference] = useState('all-conf');
+  const [sortField, setSortField] = useState<SortField>('Conference W');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
   const conferences = [
     'all-conf',
@@ -59,6 +64,17 @@ export default function BasketballTab() {
     'wac'
   ];
 
+  const sortFields: { label: string; value: SortField }[] = [
+    { label: 'School Name', value: 'School' },
+    { label: 'Conference Wins', value: 'Conference W' },
+    { label: 'Conference Losses', value: 'Conference L' },
+    { label: 'Conference Win %', value: 'Conference PCT' },
+    { label: 'Overall Wins', value: 'Overall W' },
+    { label: 'Overall Losses', value: 'Overall L' },
+    { label: 'Overall Win %', value: 'Overall PCT' },
+    { label: 'Current Streak', value: 'Overall STREAK' }
+  ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -76,6 +92,44 @@ export default function BasketballTab() {
     fetchData();
   }, [selectedConference]);
 
+  const sortData = (data: TeamStanding[]) => {
+    return [...data].sort((a, b) => {
+      let aValue: string | number = a[sortField];
+      let bValue: string | number = b[sortField];
+
+      // Handle numeric values
+      if (sortField !== 'School' && sortField !== 'Overall STREAK') {
+        aValue = parseFloat(aValue as string);
+        bValue = parseFloat(bValue as string);
+      }
+
+      // Handle streak values (e.g., "Won 5", "Lost 2")
+      if (sortField === 'Overall STREAK') {
+        const aNum = parseInt((aValue as string).split(' ')[1]) || 0;
+        const bNum = parseInt((bValue as string).split(' ')[1]) || 0;
+        const aIsWinning = (aValue as string).startsWith('Won');
+        const bIsWinning = (bValue as string).startsWith('Won');
+        
+        if (aIsWinning !== bIsWinning) {
+          return sortOrder === 'asc' 
+            ? (aIsWinning ? 1 : -1)
+            : (aIsWinning ? -1 : 1);
+        }
+        return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
+      }
+
+      // Handle numeric comparisons
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
+      }
+
+      // Handle string comparisons
+      return sortOrder === 'asc' 
+        ? (aValue as string).localeCompare(bValue as string)
+        : (bValue as string).localeCompare(aValue as string);
+    });
+  };
+
   if (loading) {
     return (
       <View style={styles.container}>
@@ -91,6 +145,8 @@ export default function BasketballTab() {
       </View>
     );
   }
+
+  const sortedData = sortData(data);
 
   return (
     <View style={styles.container}>
@@ -116,8 +172,32 @@ export default function BasketballTab() {
             <Text style={styles.selectedConference}>{selectedConference.toUpperCase()} Conference</Text>
           </View>
 
+          {/* Sort Controls */}
+          <View style={styles.sortSection}>
+            <Text style={styles.selectorTitle}>Sort By</Text>
+            <View style={styles.sortControls}>
+              <Picker
+                selectedValue={sortField}
+                onValueChange={(itemValue) => setSortField(itemValue as SortField)}
+                style={[styles.picker, styles.sortPicker]}
+              >
+                {sortFields.map((field) => (
+                  <Picker.Item key={field.value} label={field.label} value={field.value} />
+                ))}
+              </Picker>
+              <Picker
+                selectedValue={sortOrder}
+                onValueChange={(itemValue) => setSortOrder(itemValue as SortOrder)}
+                style={[styles.picker, styles.orderPicker]}
+              >
+                <Picker.Item label="High to Low" value="desc" />
+                <Picker.Item label="Low to High" value="asc" />
+              </Picker>
+            </View>
+          </View>
+
           {/* Render standings */}
-          {data.map((team, index) => (
+          {sortedData.map((team, index) => (
             <View key={index} style={styles.teamContainer}>
               <Text style={styles.teamName}>{team.School}</Text>
               <Text>Conference Wins: {team["Conference W"]}</Text>
@@ -168,18 +248,30 @@ const styles = StyleSheet.create({
   selectorSection: {
     marginBottom: 20,
   },
+  sortSection: {
+    marginBottom: 20,
+  },
   selectorTitle: {
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,
     color: '#2c3e50',
   },
+  sortControls: {
+    flexDirection: 'row',
+    gap: 10,
+  },
   picker: {
     height: 50,
-    width: '100%',
     backgroundColor: '#f8f9fa',
     borderRadius: 8,
     marginBottom: 10,
+  },
+  sortPicker: {
+    flex: 2,
+  },
+  orderPicker: {
+    flex: 1,
   },
   selectedConference: {
     fontSize: 16,
