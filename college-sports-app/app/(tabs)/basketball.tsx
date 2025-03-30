@@ -20,12 +20,14 @@ interface ConferenceData {
 
 type SortField = keyof TeamStanding;
 type SortOrder = 'asc' | 'desc';
+type Gender = 'men' | 'women';
 
 export default function BasketballTab() {
   const [data, setData] = useState<TeamStanding[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedConference, setSelectedConference] = useState('all-conf');
+  const [selectedGender, setSelectedGender] = useState<Gender>('men');
   const [sortField, setSortField] = useState<SortField>('Conference W');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
@@ -78,7 +80,7 @@ export default function BasketballTab() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/basketball/data?conference=${selectedConference}`);
+        const response = await fetch(`http://127.0.0.1:5000/basketball/data?conference=${selectedConference}&gender=${selectedGender}`);
         const result = await response.json();
         setData(result.data[0]?.standings || []);
       } catch (err) {
@@ -90,7 +92,7 @@ export default function BasketballTab() {
     };
 
     fetchData();
-  }, [selectedConference]);
+  }, [selectedConference, selectedGender]);
 
   const sortData = (data: TeamStanding[]) => {
     return [...data].sort((a, b) => {
@@ -157,6 +159,26 @@ export default function BasketballTab() {
             <Text style={styles.title}>NCAA Basketball Standings</Text>
           </View>
 
+          {/* Conference Display */}
+          <View style={styles.selectedConferenceContainer}>
+            <Text style={styles.selectedConference}>
+              {selectedConference.toUpperCase()}: {selectedGender === 'men' ? "Men's" : "Women's"} Basketball
+            </Text>
+          </View>
+
+          {/* Gender Selector */}
+          <View style={styles.selectorSection}>
+            <Text style={styles.selectorTitle}>Men's or Women's</Text>
+            <Picker
+              selectedValue={selectedGender}
+              onValueChange={(itemValue) => setSelectedGender(itemValue as Gender)}
+              style={styles.picker}
+            >
+              <Picker.Item label="Men's Basketball" value="men" />
+              <Picker.Item label="Women's Basketball" value="women" />
+            </Picker>
+          </View>
+
           {/* Conference Selector */}
           <View style={styles.selectorSection}>
             <Text style={styles.selectorTitle}>Select Conference</Text>
@@ -169,7 +191,6 @@ export default function BasketballTab() {
                 <Picker.Item key={conf} label={conf.toUpperCase()} value={conf} />
               ))}
             </Picker>
-            <Text style={styles.selectedConference}>{selectedConference.toUpperCase()} Conference</Text>
           </View>
 
           {/* Sort Controls */}
@@ -273,11 +294,20 @@ const styles = StyleSheet.create({
   orderPicker: {
     flex: 1,
   },
-  selectedConference: {
-    fontSize: 16,
-    color: '#3498db',
-    textAlign: 'center',
+  selectedConferenceContainer: {
+    backgroundColor: '#f0f8ff',
+    padding: 10,
+    borderRadius: 8,
     marginTop: 5,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#3498db',
+  },
+  selectedConference: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2c3e50',
+    textAlign: 'center',
   },
   teamContainer: {
     backgroundColor: '#f8f9fa',
