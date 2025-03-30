@@ -8,7 +8,8 @@ CORS(app)  # Enable CORS for all routes
 @app.route('/football/data', methods=['GET'])
 def get_football_data():
     try:
-        response = requests.get('https://ncaa-api.henrygd.me/rankings/football/fbs/associated-press')
+        conference = request.args.get('conference', 'all-conf')  # Default to all conferences if none specified
+        response = requests.get(f'https://ncaa-api.henrygd.me/standings/football/fbs/{conference}')
         response.raise_for_status()  # Raise HTTPError for bad responses
         data = response.json()
         return jsonify(data)
