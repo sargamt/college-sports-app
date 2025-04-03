@@ -222,12 +222,12 @@ export default function FootballTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f8ff',
+    backgroundColor: '#02030c',
     padding: 10,
   },
   contentCard: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundImage: 'linear-gradient(to bottom, #005f9c, #ffffff)',
     borderRadius: 12,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#2c3e50',
+    color: '#ffffff',
   },
   selectorSection: {
     marginBottom: 20,
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,
-    color: '#2c3e50',
+    color: '#a9ccb9',
   },
   sortControls: {
     flexDirection: 'row',
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   selectedConferenceContainer: {
-    backgroundColor: '#f0f8ff',
+    backgroundColor: '#ffffff',
     padding: 10,
     borderRadius: 8,
     marginTop: 5,
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   teamContainer: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#ffffff',
     padding: 15,
     marginVertical: 8,
     borderRadius: 10,

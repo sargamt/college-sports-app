@@ -85,12 +85,12 @@ export default function BaseballTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f8ff',
+    backgroundColor: '#3667c2',
     padding: 10,
   },
   contentCard: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#3667c2',
     borderRadius: 12,
     shadowColor: '#000',
     shadowOpacity: 0.1,
