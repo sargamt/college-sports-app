@@ -10,6 +10,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Playbook',
+          tabBarLabel: 'Football',
           tabBarIcon: ({ color }) => <FontAwesome6 name="football" size={24} color={color} />,
         }}
       />
@@ -17,6 +18,7 @@ export default function TabLayout() {
         name="basketball"
         options={{
           title: 'Playbook',
+          tabBarLabel: 'Basketball',
           tabBarIcon: ({ color }) => <FontAwesome6 name="basketball" size={24} color={color} />,
         }}
       />
@@ -24,6 +26,7 @@ export default function TabLayout() {
         name="baseball"
         options={{
           title: 'Playbook',
+          tabBarLabel: 'Baseball',
           tabBarIcon: ({ color }) => <FontAwesome6 name="baseball" size={24} color={color} />,
         }}
       />
