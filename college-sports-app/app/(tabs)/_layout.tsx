@@ -9,21 +9,21 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Football',
+          title: 'Playbook',
           tabBarIcon: ({ color }) => <FontAwesome6 name="football" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="basketball"
         options={{
-          title: 'Basketball',
+          title: 'Playbook',
           tabBarIcon: ({ color }) => <FontAwesome6 name="basketball" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="baseball"
         options={{
-          title: 'Baseball',
+          title: 'Playbook',
           tabBarIcon: ({ color }) => <FontAwesome6 name="baseball" size={24} color={color} />,
         }}
       />
