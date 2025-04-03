@@ -155,12 +155,6 @@ export default function FootballTab() {
             <Text style={styles.title}>NCAA Football Standings</Text>
           </View>
 
-          {/* Conference Display */}
-          <View style={styles.selectedConferenceContainer}>
-            <Text style={styles.selectedConference}>
-              {conferenceNames[selectedConference]}
-            </Text>
-          </View>
 
           {/* Conference Selector */}
           <View style={styles.selectorSection}>
@@ -198,6 +192,13 @@ export default function FootballTab() {
                 <Picker.Item label="Low to High" value="asc" />
               </Picker>
             </View>
+          </View>
+
+          {/* Conference Display */}
+          <View style={styles.selectedConferenceContainer}>
+            <Text style={styles.selectedConference}>
+              {conferenceNames[selectedConference]}
+            </Text>
           </View>
 
           {/* Render standings */}
@@ -244,22 +245,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 28,
+    fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#ffffff',
   },
   selectorSection: {
-    marginBottom: 20,
+    paddingVertical: 5,
+    marginBottom: 10,
   },
   sortSection: {
-    marginBottom: 20,
+    paddingVertical: 5,
+    marginBottom: 10,
   },
   selectorTitle: {
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,
-    color: '#a9ccb9',
+    color: '#de5b5b',
   },
   sortControls: {
     flexDirection: 'row',
@@ -267,27 +270,29 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 50,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#ffffff',
     borderRadius: 8,
-    marginBottom: 10,
+    paddingVertical: 5,
   },
   sortPicker: {
     flex: 2,
+    paddingVertical: 5,
   },
   orderPicker: {
     flex: 1,
+    paddingVertical: 5,
   },
   selectedConferenceContainer: {
     backgroundColor: '#ffffff',
     padding: 10,
     borderRadius: 8,
-    marginTop: 5,
+    marginTop: 15,
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#3498db',
   },
   selectedConference: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: '600',
     color: '#2c3e50',
     textAlign: 'center',
