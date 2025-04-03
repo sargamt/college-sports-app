@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,
-    color: '#de5b5b',
+    color: '#ffffff',
   },
   sortControls: {
     flexDirection: 'row',
