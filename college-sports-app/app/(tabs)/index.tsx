@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useFonts } from 'expo-font';
+import { ImageBackground } from 'react-native';
 
 interface TeamStanding {
   School: string;
@@ -27,6 +29,9 @@ export default function FootballTab() {
   const [selectedConference, setSelectedConference] = useState('all-conf');
   const [sortField, setSortField] = useState<SortField>('Conference W');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [fontsLoaded] = useFonts({
+    'jersey': require('../../assets/fonts/jersey-m54.ttf')
+  })
 
   const conferences = [
     'all-conf',
@@ -147,12 +152,19 @@ export default function FootballTab() {
   const sortedData = sortData(data);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentCard}>
+      <ImageBackground
+        source={require('../../assets/images/football.jpg')}
+        style={styles.backgroundImage}
+        resizeMode="cover">
+      {/* <View style={styles.contentCard}> */}
         <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
           {/* Title */}
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>NCAA Football Standings</Text>
+            {/* <Text style={styles.title}>NCAA Football Standings</Text> */}
+            <Text style={{ fontFamily: 'jersey', fontSize: 60, color: 'white'}}>
+              NCAA Football Standings
+              </Text>
           </View>
 
 
@@ -214,9 +226,11 @@ export default function FootballTab() {
               <Text>Streak: {team["Overall STREAK"]}</Text>
             </View>
           ))}
-        </ScrollView>
+        {/* </ScrollView> */}
+      {/* </View> */}
       </View>
-    </View>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
@@ -226,16 +240,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#02030c',
     padding: 10,
   },
-  contentCard: {
-    flex: 1,
-    backgroundImage: 'linear-gradient(to bottom, #005f9c, #ffffff)',
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
-    overflow: 'hidden',
+  // contentCard: {
+  //   flex: 1,
+  //   backgroundImage: 'linear-gradient(to bottom, #005f9c, #ffffff)',
+  //   borderRadius: 12,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.1,
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowRadius: 4,
+  //   elevation: 3,
+  //   overflow: 'hidden',
+  // },
+  backgroundImage: {
+    width: '100%',
+    height: '100%'
   },
   scrollContainer: {
     padding: 15,
