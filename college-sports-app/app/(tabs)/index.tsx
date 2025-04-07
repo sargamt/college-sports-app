@@ -8,15 +8,15 @@ interface TeamStanding {
   School: string;
   "Conference W": string;
   "Conference L": string;
-  "Conference PCT": string;
+  "Conference PCT"?: string;
   "Overall W": string;
   "Overall L": string;
-  "Overall PCT": string;
+  "Overall PCT"?: string;
   "Overall STREAK": string;
-  "PF": string;
-  "PA": string;
-  "HOME": string;
-  "AWAY": string;
+  "Overall PF": string;
+  "Overall PA": string;
+  "Overall HOME": string;
+  "Overall AWAY": string;
 }
 
 type SortField = keyof TeamStanding;
@@ -217,13 +217,13 @@ export default function FootballTab() {
           {sortedData.map((team, index) => (
             <View key={index} style={styles.teamContainer}>
               <Text style={styles.teamName}>{team.School}</Text>
-              <Text>Conference Record: {team["Conference W"]}-{team["Conference L"]} ({team["Conference PCT"]})</Text>
-              <Text>Overall Record: {team["Overall W"]}-{team["Overall L"]} ({team["Overall PCT"]})</Text>
-              <Text>Points For: {team["PF"]}</Text>
-              <Text>Points Against: {team["PA"]}</Text>
-              <Text>Home Record: {team["HOME"]}</Text>
-              <Text>Away Record: {team["AWAY"]}</Text>
-              <Text>Streak: {team["Overall STREAK"]}</Text>
+              <Text>Conference Record: {team["Conference W"]}-{team["Conference L"]}</Text>
+              <Text>Overall Record: {team["Overall W"]}-{team["Overall L"]}</Text>
+              <Text>Points For: {team["Overall PF"] || "N/A"}</Text>
+              <Text>Points Against: {team["Overall PA"] || "N/A"}</Text>
+              <Text>Home Record: {team["Overall HOME"] || "N/A"}</Text>
+              <Text>Away Record: {team["Overall AWAY"] || "N/A"}</Text>
+              <Text>Streak: {team["Overall STREAK"] || "N/A"}</Text>
             </View>
           ))}
         {/* </ScrollView> */}
