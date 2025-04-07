@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, ActivityIndicator, ImageBackground } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useFonts } from 'expo-font';
-import { ImageBackground } from 'react-native';
 
 interface TeamStanding {
   School: string;
@@ -235,9 +234,11 @@ export default function FootballTab() {
 }
 
 const styles = StyleSheet.create({
+  // black box with all the info
   container: {
     flex: 1,
-    backgroundColor: '#02030c',
+    // backgroundColor: '#02030c',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     padding: 10,
   },
   // contentCard: {
