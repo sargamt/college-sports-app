@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 10,
-    color: '#2c3e50',
+    color: '#FFA500',
   },
   sortControls: {
     flexDirection: 'row',
