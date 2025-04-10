@@ -49,16 +49,21 @@ export default function BaseballTab() {
   }
 
   return (
-    <ImageBackground
-            source={require('../../assets/images/baseball.jpg')}
-            style={styles.backgroundImage}
-            resizeMode="cover">
+  <ImageBackground
+    source={require('../../assets/images/baseball.jpg')}
+    style={styles.backgroundImage}
+      resizeMode='cover'>
+      {/* <View style={styles.contentCard}> */}
         <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.container}>
+          <View style={styles.container}>
           {/* Title */}
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>NCAA Baseball Rankings</Text>
-            <Text style={styles.subtitle}>D1Baseball.com Top 25</Text>
+            <Text style={{ fontFamily: 'jersey', fontSize: 60, color: 'white'}}>
+              NCAA Baseball Standings
+              </Text>
+            <Text style={[styles.subtitle, { fontFamily: 'jersey', fontSize: 60, color: 'white' }]}>
+              D1 Baseball.com Top 25
+            </Text>
           </View>
 
           {/* Last Updated */}
@@ -79,9 +84,10 @@ export default function BaseballTab() {
               </View>
             </View>
           ))}
-        </View>
+          </View>
         </ScrollView>
-    </ImageBackground>
+      </ImageBackground>
+    // {/* </View> */}
   );
 }
 
@@ -92,20 +98,21 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#3667c2',
+    // backgroundColor: '#3667c2',
+    backgroundColor: 'rgba(90, 87, 87, 0.8)',
     padding: 10,
   },
-  contentCard: {
-    flex: 1,
-    backgroundColor: '#3667c2',
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
-    overflow: 'hidden',
-  },
+  // contentCard: {
+  //   flex: 1,
+  //   backgroundColor: '#3667c2',
+  //   borderRadius: 12,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.1,
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowRadius: 4,
+  //   elevation: 3,
+  //   overflow: 'hidden',
+  // },
   scrollContainer: {
     padding: 15,
   },
