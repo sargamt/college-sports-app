@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, ActivityIndicator, ImageBackground } from 'react-native';
 
 interface TeamRanking {
   RANK: string;
@@ -49,9 +49,12 @@ export default function BaseballTab() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentCard}>
+    <ImageBackground
+            source={require('../../assets/images/baseball.jpg')}
+            style={styles.backgroundImage}
+            resizeMode="cover">
         <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
           {/* Title */}
           <View style={styles.titleContainer}>
             <Text style={styles.title}>NCAA Baseball Rankings</Text>
@@ -76,13 +79,17 @@ export default function BaseballTab() {
               </View>
             </View>
           ))}
+        </View>
         </ScrollView>
-      </View>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: '100%',
+    height:  '100%'
+  },
   container: {
     flex: 1,
     backgroundColor: '#3667c2',
