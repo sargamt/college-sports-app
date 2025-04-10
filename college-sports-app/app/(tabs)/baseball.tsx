@@ -3,7 +3,7 @@ import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-nat
 
 interface TeamRanking {
   RANK: string;
-  SCHOOL: string;
+  TEAM: string;
   "OVERALL RECORD": string;
   "PREVIOUS RANK": string;
 }
@@ -71,7 +71,7 @@ export default function BaseballTab() {
                 <Text style={styles.previousRank}>Previous: {team["PREVIOUS RANK"]}</Text>
               </View>
               <View style={styles.teamInfo}>
-                <Text style={styles.teamName}>{team.SCHOOL}</Text>
+                <Text style={styles.teamName}>{team.TEAM}</Text>
                 <Text style={styles.record}>{team["OVERALL RECORD"]}</Text>
               </View>
             </View>
