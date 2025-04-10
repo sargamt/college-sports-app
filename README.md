@@ -1,29 +1,24 @@
-# college-sports-app
+# Playbook - College Sports Stats App
 
-To start app:
+Installations:
+```bash
+cd college-sports-app
+npm install
+```
+
+To start backend:
+```bash
+cd college-sports-app
+cd flask-server
+python server.py
+```
+
+
+To start frontend (separate terminal):
 ```bash
 cd college-sports-app
 npx expo start
 ```
-
-Things to note:
-to edit any of the tabs' layouts, go to /app/(tabs)/{sport_name}.tsx
-
-in /app/(tabs) , the tsx files (the tabs) are named by their sport
-except for football, which is index.tsx, bc for some reason the home
-screen tab file has to be called index
-
-
-For backend as of now:
-```
-cd flask-server
-pip install flask
-pip install requests
-python3 server.py
-```
-
-
-http://localhost:5000/football/data
 
 For a virtual enviroment mac, run
 cd flask-server
@@ -33,4 +28,3 @@ cd flask-server
 4) pip install requests
 5) python3 server.py
 
-hi

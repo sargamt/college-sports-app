@@ -1,21 +1,125 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, ActivityIndicator, ImageBackground, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useFonts } from 'expo-font';
+
+
+interface TeamStanding {
+  School: string;
+  "Conference W": string;
+  "Conference L": string;
+  "Conference PCT": string;
+  "Overall W": string;
+  "Overall L": string;
+  "Overall PCT": string;
+  "Overall STREAK": string;
+}
+
+interface ConferenceData {
+  conference: string;
+  standings: TeamStanding[];
+}
+
+type SortField = keyof TeamStanding;
+type SortOrder = 'asc' | 'desc';
+type Gender = 'men' | 'women';
 
 export default function BasketballTab() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<TeamStanding[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedConference, setSelectedConference] = useState('all-conf');
+  const [selectedGender, setSelectedGender] = useState<Gender>('men');
+  const [sortField, setSortField] = useState<SortField>('Conference W');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
-  // shows all schools by default
-  const [selectedSchool, setSelectedSchool] = useState('All');
+  const conferences = [
+    'all-conf',
+    'america-east',
+    'the-American',
+    'atlantic-10',
+    'acc',
+    'asun',
+    'big-12',
+    'big-east',
+    'big-sky',
+    'big-south',
+    'big-ten',
+    'big-west',
+    'caa',
+    'cusa',
+    'horizon',
+    'maac',
+    'mac',
+    'meac',
+    'mvc',
+    'mountain-west',
+    'nec',
+    'ovc',
+    'patriot',
+    'sec',
+    'socon',
+    'southland',
+    'swac',
+    'sun-belt',
+    'ivy-league',
+    'summit-league',
+    'wcc',
+    'wac'
+  ];
+
+  const conferenceNames: { [key: string]: string } = {
+    'all-conf': 'All Conferences',
+    'america-east': 'America East Conference',
+    'the-American': 'American Athletic Conference',
+    'atlantic-10': 'Atlantic 10 Conference',
+    'acc': 'Atlantic Coast Conference',
+    'asun': 'Atlantic Sun Conference',
+    'big-12': 'Big 12 Conference',
+    'big-east': 'Big East Conference',
+    'big-sky': 'Big Sky Conference',
+    'big-south': 'Big South Conference',
+    'big-ten': 'Big Ten Conference',
+    'big-west': 'Big West Conference',
+    'caa': 'Coastal Athletic Association',
+    'cusa': 'Conference USA',
+    'horizon': 'Horizon League',
+    'maac': 'Metro Atlantic Athletic Conference',
+    'mac': 'Mid-American Conference',
+    'meac': 'Mid-Eastern Athletic Conference',
+    'mvc': 'Missouri Valley Conference',
+    'mountain-west': 'Mountain West Conference',
+    'nec': 'Northeast Conference',
+    'ovc': 'Ohio Valley Conference',
+    'patriot': 'Patriot League',
+    'sec': 'Southeastern Conference',
+    'socon': 'Southern Conference',
+    'southland': 'Southland Conference',
+    'swac': 'Southwestern Athletic Conference',
+    'sun-belt': 'Sun Belt Conference',
+    'ivy-league': 'The Ivy League',
+    'summit-league': 'The Summit League',
+    'wcc': 'West Coast Conference',
+    'wac': 'Western Athletic Conference'
+  };
+
+  const sortFields: { label: string; value: SortField }[] = [
+    { label: 'School Name', value: 'School' },
+    { label: 'Conference Wins', value: 'Conference W' },
+    { label: 'Conference Losses', value: 'Conference L' },
+    { label: 'Conference Win %', value: 'Conference PCT' },
+    { label: 'Overall Wins', value: 'Overall W' },
+    { label: 'Overall Losses', value: 'Overall L' },
+    { label: 'Overall Win %', value: 'Overall PCT' },
+    { label: 'Current Streak', value: 'Overall STREAK' }
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/basketball/data'); // Replace with your machine's IP address
+        const response = await fetch(`http://127.0.0.1:5000/basketball/data?conference=${selectedConference}&gender=${selectedGender}`);
         const result = await response.json();
-        setData(result.data[0]?.standings || []); // Access standings array
+        setData(result.data[0]?.standings || []);
       } catch (err) {
         setError('Failed to load data');
         console.error(err);
@@ -25,7 +129,45 @@ export default function BasketballTab() {
     };
 
     fetchData();
-  }, []);
+  }, [selectedConference, selectedGender]);
+
+  const sortData = (data: TeamStanding[]) => {
+    return [...data].sort((a, b) => {
+      let aValue: string | number = a[sortField];
+      let bValue: string | number = b[sortField];
+
+      // Handle numeric values
+      if (sortField !== 'School' && sortField !== 'Overall STREAK') {
+        aValue = parseFloat(aValue as string);
+        bValue = parseFloat(bValue as string);
+      }
+
+      // Handle streak values (e.g., "Won 5", "Lost 2")
+      if (sortField === 'Overall STREAK') {
+        const aNum = parseInt((aValue as string).split(' ')[1]) || 0;
+        const bNum = parseInt((bValue as string).split(' ')[1]) || 0;
+        const aIsWinning = (aValue as string).startsWith('Won');
+        const bIsWinning = (bValue as string).startsWith('Won');
+        
+        if (aIsWinning !== bIsWinning) {
+          return sortOrder === 'asc' 
+            ? (aIsWinning ? 1 : -1)
+            : (aIsWinning ? -1 : 1);
+        }
+        return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
+      }
+
+      // Handle numeric comparisons
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
+      }
+
+      // Handle string comparisons
+      return sortOrder === 'asc' 
+        ? (aValue as string).localeCompare(bValue as string)
+        : (bValue as string).localeCompare(aValue as string);
+    });
+  };
 
   if (loading) {
     return (
@@ -43,73 +185,179 @@ export default function BasketballTab() {
     );
   }
 
-  // list of all schools for dropdown
-  const schoolOptions = ['All', ...new Set(data.map((team) => team.School))];
-
-  // filter data based on selected school
-  const filteredData = selectedSchool === 'All' 
-    ? data 
-    : data.filter(team => team.School === selectedSchool);
+  const sortedData = sortData(data);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {/* Title */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Southeastern Conference Standings</Text>
-      </View>
+    <ImageBackground
+        source={require('../../assets/images/basketball.jpg')}
+        style={styles.backgroundImage}
+        resizeMode='cover'>
+      {/* <View style={styles.contentCard}> */}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.container}>
+          {/* Title */}
+          <View style={styles.titleContainer}>
+            <Text style={{ fontFamily: 'jersey', fontSize: 60, color: 'orange'}}>
+              NCAA Basketball Standings
+              </Text>
+          </View>
 
-      {/* dropdown */}
-      <Picker
-        selectedValue={selectedSchool}
-        onValueChange={(itemValue) => setSelectedSchool(itemValue)}
-        style={styles.picker}
-      >
-        {schoolOptions.map((school, index) => (
-          <Picker.Item key={index} label={school} value={school} />
-        ))}
-      </Picker>
+          {/* Conference Display */}
+          <View style={styles.selectedConferenceContainer}>
+            <Text style={styles.selectedConference}>
+              {conferenceNames[selectedConference]}: {selectedGender === 'men' ? "Men's" : "Women's"} Basketball
+            </Text>
+          </View>
 
-      {/* Render standings */}
-      {filteredData.map((team, index) => (
-        <View key={index} style={styles.teamContainer}>
-          <Text style={styles.teamName}>{team.School}</Text>
-          <Text>Conference Wins: {team["Conference W"]}</Text>
-          <Text>Conference Losses: {team["Conference L"]}</Text>
-          <Text>Overall Wins: {team["Overall W"]}</Text>
-          <Text>Overall Losses: {team["Overall L"]}</Text>
-          <Text>Overall PCT: {team["Overall PCT"]}</Text>
-          <Text>Streak: {team["Overall STREAK"]}</Text>
-        </View>
-      ))}
-    </ScrollView>
+          {/* Gender Selector */}
+          <View style={styles.selectorSection}>
+            <Text style={styles.selectorTitle}>Men's or Women's</Text>
+            <Picker
+              selectedValue={selectedGender}
+              onValueChange={(itemValue) => setSelectedGender(itemValue as Gender)}
+              style={styles.picker}
+            >
+              <Picker.Item label="Men's Basketball" value="men" />
+              <Picker.Item label="Women's Basketball" value="women" />
+            </Picker>
+          </View>
+
+          {/* Conference Selector */}
+          <View style={styles.selectorSection}>
+            <Text style={styles.selectorTitle}>Select Conference</Text>
+            <Picker
+              selectedValue={selectedConference}
+              onValueChange={(itemValue) => setSelectedConference(itemValue)}
+              style={styles.picker}
+            >
+              {conferences.map((conf) => (
+                <Picker.Item key={conf} label={conferenceNames[conf]} value={conf} />
+              ))}
+            </Picker>
+          </View>
+
+          {/* Sort Controls */}
+          <View style={styles.sortSection}>
+            <Text style={styles.selectorTitle}>Sort By</Text>
+            <View style={styles.sortControls}>
+              <Picker
+                selectedValue={sortField}
+                onValueChange={(itemValue) => setSortField(itemValue as SortField)}
+                style={[styles.picker, styles.sortPicker]}
+              >
+                {sortFields.map((field) => (
+                  <Picker.Item key={field.value} label={field.label} value={field.value} />
+                ))}
+              </Picker>
+              <Picker
+                selectedValue={sortOrder}
+                onValueChange={(itemValue) => setSortOrder(itemValue as SortOrder)}
+                style={[styles.picker, styles.orderPicker]}
+              >
+                <Picker.Item label="High to Low" value="desc" />
+                <Picker.Item label="Low to High" value="asc" />
+              </Picker>
+            </View>
+          </View>
+
+          {/* Render standings */}
+          {sortedData.map((team, index) => (
+            <View key={index} style={styles.teamContainer}>
+              <Text style={styles.teamName}>{team.School}</Text>
+              <Text>Conference Wins: {team["Conference W"]}</Text>
+              <Text>Conference Losses: {team["Conference L"]}</Text>
+              <Text>Conference PCT: {team["Conference PCT"]}</Text>
+              <Text>Overall Wins: {team["Overall W"]}</Text>
+              <Text>Overall Losses: {team["Overall L"]}</Text>
+              <Text>Overall PCT: {team["Overall PCT"]}</Text>
+              <Text>Streak: {team["Overall STREAK"]}</Text>
+            </View>
+          ))}
+          </View>
+        </ScrollView>
+      </ImageBackground>
+    // </View>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    padding: 10,
-    backgroundColor: '#f0f8ff',
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // backgroundColor: '#f0f8ff',
+    backgroundColor: 'rgba(76, 94, 231, 0.8)',
+    padding: 10,
+  },
+  // contentCard: {
+  //   flex: 1,
+  //   backgroundColor: '#ffffff',
+  //   borderRadius: 12,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.1,
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowRadius: 4,
+  //   elevation: 3,
+  //   overflow: 'hidden',
+  // },
+  backgroundImage: {
+    width: '100%',
+    height:  '100%'
+  },
+  scrollContainer: {
+    padding: 15,
   },
   titleContainer: {
-    marginBottom: 10,
+    marginBottom: 15,
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: '#2c3e50',
+  },
+  selectorSection: {
+    marginBottom: 20,
+  },
+  sortSection: {
+    marginBottom: 20,
+  },
+  // subtitles for basketball tab
+  selectorTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 10,
+    color: '#FFA500',
+  },
+  sortControls: {
+    flexDirection: 'row',
+    gap: 10,
   },
   picker: {
     height: 50,
-    width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
     borderRadius: 8,
-    marginBottom: 20,
+    marginBottom: 10,
+  },
+  sortPicker: {
+    flex: 2,
+  },
+  orderPicker: {
+    flex: 1,
+  },
+  selectedConferenceContainer: {
+    backgroundColor: '#f0f8ff',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 5,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#3498db',
+  },
+  selectedConference: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2c3e50',
+    textAlign: 'center',
   },
   teamContainer: {
     backgroundColor: '#f8f9fa',
@@ -126,6 +374,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: '#2c3e50',
   },
   error: {
     color: 'red',

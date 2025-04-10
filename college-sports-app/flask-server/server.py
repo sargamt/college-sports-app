@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
 
@@ -8,7 +8,8 @@ CORS(app)  # Enable CORS for all routes
 @app.route('/football/data', methods=['GET'])
 def get_football_data():
     try:
-        response = requests.get('https://ncaa-api.henrygd.me/rankings/football/fbs/associated-press')
+        conference = request.args.get('conference', 'all-conf')  # Default to all conferences if none specified
+        response = requests.get(f'https://ncaa-api.henrygd.me/standings/football/fbs/{conference}')
         response.raise_for_status()  # Raise HTTPError for bad responses
         data = response.json()
         return jsonify(data)
@@ -19,7 +20,20 @@ def get_football_data():
 @app.route('/basketball/data', methods=['GET'])
 def get_basketball_data():
     try:
-        response = requests.get('https://ncaa-api.henrygd.me/standings/basketball-men/d1/sec')
+        conference = request.args.get('conference', 'all-conf')  # Default to all conferences if none specified
+        gender = request.args.get('gender', 'men')  # Default to men if not specified
+        response = requests.get(f'https://ncaa-api.henrygd.me/standings/basketball-{gender}/d1/{conference}')
+        response.raise_for_status()  # Raise HTTPError for bad responses
+        data = response.json()
+        return jsonify(data)
+    
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/baseball/data', methods=['GET'])
+def get_baseball_data():
+    try:
+        response = requests.get('https://ncaa-api.henrygd.me/rankings/baseball/d1/d1baseballcom-top-25')
         response.raise_for_status()  # Raise HTTPError for bad responses
         data = response.json()
         return jsonify(data)
