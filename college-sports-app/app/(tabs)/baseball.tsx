@@ -4,7 +4,7 @@ import { ScrollView, View, Text, StyleSheet, ActivityIndicator, ImageBackground 
 interface TeamRanking {
   RANK: string;
   TEAM: string;
-  "OVERALL RECORD": string;
+  "RECORD": string;
   "PREVIOUS RANK": string;
 }
 
@@ -80,7 +80,7 @@ export default function BaseballTab() {
               </View>
               <View style={styles.teamInfo}>
                 <Text style={styles.teamName}>{team.TEAM}</Text>
-                <Text style={styles.record}>{team["OVERALL RECORD"]}</Text>
+                <Text style={styles.record}>{team["RECORD"]}</Text>
               </View>
             </View>
           ))}
@@ -102,17 +102,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(90, 87, 87, 0.8)',
     padding: 10,
   },
-  // contentCard: {
-  //   flex: 1,
-  //   backgroundColor: '#3667c2',
-  //   borderRadius: 12,
-  //   shadowColor: '#000',
-  //   shadowOpacity: 0.1,
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowRadius: 4,
-  //   elevation: 3,
-  //   overflow: 'hidden',
-  // },
   scrollContainer: {
     padding: 15,
   },

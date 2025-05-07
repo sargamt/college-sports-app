@@ -241,17 +241,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     padding: 10,
   },
-  // contentCard: {
-  //   flex: 1,
-  //   backgroundImage: 'linear-gradient(to bottom, #005f9c, #ffffff)',
-  //   borderRadius: 12,
-  //   shadowColor: '#000',
-  //   shadowOpacity: 0.1,
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowRadius: 4,
-  //   elevation: 3,
-  //   overflow: 'hidden',
-  // },
   backgroundImage: {
     width: '100%',
     height: '100%'

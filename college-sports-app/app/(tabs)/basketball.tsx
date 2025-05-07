@@ -157,12 +157,10 @@ export default function BasketballTab() {
         return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
       }
 
-      // Handle numeric comparisons
+      // handle numeric comparisons then string comparisons
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
       }
-
-      // Handle string comparisons
       return sortOrder === 'asc' 
         ? (aValue as string).localeCompare(bValue as string)
         : (bValue as string).localeCompare(aValue as string);
@@ -192,7 +190,6 @@ export default function BasketballTab() {
         source={require('../../assets/images/basketball.jpg')}
         style={styles.backgroundImage}
         resizeMode='cover'>
-      {/* <View style={styles.contentCard}> */}
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.container}>
           {/* Title */}
@@ -260,7 +257,7 @@ export default function BasketballTab() {
             </View>
           </View>
 
-          {/* Render standings */}
+          {/* show standings */}
           {sortedData.map((team, index) => (
             <View key={index} style={styles.teamContainer}>
               <Text style={styles.teamName}>{team.School}</Text>
@@ -283,21 +280,9 @@ export default function BasketballTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#f0f8ff',
     backgroundColor: 'rgba(76, 94, 231, 0.8)',
     padding: 10,
   },
-  // contentCard: {
-  //   flex: 1,
-  //   backgroundColor: '#ffffff',
-  //   borderRadius: 12,
-  //   shadowColor: '#000',
-  //   shadowOpacity: 0.1,
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowRadius: 4,
-  //   elevation: 3,
-  //   overflow: 'hidden',
-  // },
   backgroundImage: {
     width: '100%',
     height:  '100%'
@@ -321,7 +306,6 @@ const styles = StyleSheet.create({
   sortSection: {
     marginBottom: 20,
   },
-  // subtitles for basketball tab
   selectorTitle: {
     fontSize: 18,
     fontWeight: '600',
